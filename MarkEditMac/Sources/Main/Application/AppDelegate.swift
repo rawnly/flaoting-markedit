@@ -118,6 +118,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     // Install uncaught exception handler
     AppExceptionCatcher.install()
+
+    DispatchQueue.main.async {
+      if NSDocumentController.shared.documents.isEmpty, self.shouldOpenOrCreateDocument() {
+        AppVault.openToday()
+      }
+    }
   }
 
   func applicationShouldTerminate(_ application: NSApplication) -> NSApplication.TerminateReply {

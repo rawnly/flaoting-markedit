@@ -18,7 +18,12 @@ extension AppDelegate {
   }
 
   func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool {
-    shouldOpenOrCreateDocument() && openOrCreateDocument(sender: sender)
+    guard shouldOpenOrCreateDocument() else {
+      return false
+    }
+
+    AppVault.openToday()
+    return false
   }
 
   func applicationDockMenu(_ sender: NSApplication) -> NSMenu? {
@@ -41,6 +46,11 @@ extension AppDelegate {
   }
 
   func createNewFile(fileName: String? = nil, initialContent: String? = nil, isIntent: Bool = false) {
+    guard fileName != nil || initialContent != nil else {
+      AppVault.openToday()
+      return
+    }
+
     // In EditorDocument, this is used as an external filename
     AppDocumentController.suggestedFilename = fileName
 
@@ -87,7 +97,7 @@ extension AppDelegate {
 
     if windows.isEmpty {
       // Open a new window if we don't have any editor windows
-      openOrCreateDocument(sender: NSApp)
+      AppVault.openToday()
     } else if (windows.contains { $0.isKeyWindow }) {
       // Hide the app if there was already a key editor window
       NSApp.hide(nil)
@@ -115,19 +125,7 @@ private extension AppDelegate {
 
   @discardableResult
   func openOrCreateDocument(sender: NSApplication) -> Bool {
-    switch AppPreferences.General.newWindowBehavior {
-    case .openDocument:
-      // The system occasionally runs this twice in a row, prevent duplicate panels
-      let currentDate = Date.timeIntervalSinceReferenceDate
-      if currentDate - States.openPanelShownDate > 0.2 {
-        States.openPanelShownDate = currentDate
-        sender.showOpenPanel()
-      }
-
-      return false
-    case .newDocument:
-      States.untitledFileOpenedDate = Date.timeIntervalSinceReferenceDate
-      return true
-    }
+    AppVault.openToday()
+    return false
   }
 }

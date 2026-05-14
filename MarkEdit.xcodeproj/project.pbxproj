@@ -28,7 +28,6 @@
 		870F17922985775B00003DA7 /* Previewer in Frameworks */ = {isa = PBXBuildFile; productRef = 870F17912985775B00003DA7 /* Previewer */; };
 		870F17962985775B00003DA7 /* SettingsUI in Frameworks */ = {isa = PBXBuildFile; productRef = 870F17952985775B00003DA7 /* SettingsUI */; };
 		87132AA32C188FE900FD262B /* AppShortcuts.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 87132AA22C188FE900FD262B /* AppShortcuts.xcstrings */; };
-		87152BA12EC599CA00B39F06 /* FinderExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 87152B9A2EC599CA00B39F06 /* FinderExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		87152BAC2EC599DD00B39F06 /* FinderTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87152BA92EC599DD00B39F06 /* FinderTools.swift */; };
 		871C995B2973F1E6003FF3A7 /* AppDelegate+Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871C995A2973F1E6003FF3A7 /* AppDelegate+Document.swift */; };
 		871C995D2973F20E003FF3A7 /* AppDelegate+Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871C995C2973F20E003FF3A7 /* AppDelegate+Menu.swift */; };
@@ -37,7 +36,6 @@
 		8725E0822977EF46006A4961 /* EditorViewController+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8725E0812977EF46006A4961 /* EditorViewController+Toolbar.swift */; };
 		872924062951525C007156B1 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872924052951525C007156B1 /* PreviewViewController.swift */; };
 		8729240B2951525C007156B1 /* Main.xib in Resources */ = {isa = PBXBuildFile; fileRef = 872924092951525C007156B1 /* Main.xib */; };
-		872924102951525C007156B1 /* PreviewExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 872924002951525C007156B1 /* PreviewExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8729C5A6294B5E6B006F262B /* EditorViewController+Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8729C5A5294B5E6B006F262B /* EditorViewController+Menu.swift */; };
 		873126E4297BAC9C001521A0 /* EditorViewController+Pandoc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873126E3297BAC9C001521A0 /* EditorViewController+Pandoc.swift */; };
 		873ACD4729644E2F00431498 /* EditorViewController+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873ACD4629644E2F00431498 /* EditorViewController+Encoding.swift */; };
@@ -116,38 +114,16 @@
 		CC000004300000000000001A /* EditorSelectionHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC000004300000000000001B /* EditorSelectionHistory.swift */; };
 		CC000006300000000000001A /* EditorClosedTabHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC000006300000000000001B /* EditorClosedTabHistory.swift */; };
 		CC000020300000000000FD01 /* FileDrop in Frameworks */ = {isa = PBXBuildFile; productRef = CC000020300000000000FD02 /* FileDrop */; };
+		CC000030300000000000001A /* AppVault.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC000030300000000000001B /* AppVault.swift */; };
+		CC000031300000000000001A /* CommandBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC000031300000000000001B /* CommandBarController.swift */; };
+		CC000032300000000000001A /* markedit-vim.js in Resources */ = {isa = PBXBuildFile; fileRef = CC000032300000000000001B /* markedit-vim.js */; };
+		CC000033300000000000001A /* markedit-vim-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = CC000033300000000000001B /* markedit-vim-LICENSE */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		87152B9F2EC599CA00B39F06 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 870A519A294700DE0095C7EB /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 87152B992EC599CA00B39F06;
-			remoteInfo = FinderExtension;
-		};
-		8729240E2951525C007156B1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 870A519A294700DE0095C7EB /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 872923FF2951525C007156B1;
-			remoteInfo = PreviewExtension;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		872924112951525C007156B1 /* Embed Foundation Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				872924102951525C007156B1 /* PreviewExtension.appex in Embed Foundation Extensions */,
-				87152BA12EC599CA00B39F06 /* FinderExtension.appex in Embed Foundation Extensions */,
-			);
-			name = "Embed Foundation Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -261,6 +237,10 @@
 		CC000003300000000000001B /* AppDelegate+ClosedTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+ClosedTab.swift"; sourceTree = "<group>"; };
 		CC000004300000000000001B /* EditorSelectionHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorSelectionHistory.swift; sourceTree = "<group>"; };
 		CC000006300000000000001B /* EditorClosedTabHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorClosedTabHistory.swift; sourceTree = "<group>"; };
+		CC000030300000000000001B /* AppVault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVault.swift; sourceTree = "<group>"; };
+		CC000031300000000000001B /* CommandBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarController.swift; sourceTree = "<group>"; };
+		CC000032300000000000001B /* markedit-vim.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "markedit-vim.js"; sourceTree = "<group>"; };
+		CC000033300000000000001B /* markedit-vim-LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = "markedit-vim-LICENSE"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -357,6 +337,8 @@
 			children = (
 				87ACA65B2C858AF4008E24BA /* chunks */,
 				870A51C8294752530095C7EB /* index.html */,
+				CC000032300000000000001B /* markedit-vim.js */,
+				CC000033300000000000001B /* markedit-vim-LICENSE */,
 				870A51A9294700E00095C7EB /* Assets.xcassets */,
 				876D70862E7A8E9D00E308A4 /* AppIcon.icon */,
 				8757F7FB2AAC815F001957DD /* Localizable.xcstrings */,
@@ -466,6 +448,7 @@
 				87DCB61F2B284AAD00A3056F /* AppHacks.swift */,
 				877B965C2C63815000186414 /* AppHotKeys.swift */,
 				87B3ED592CBCA97D001FA6CE /* AppDocumentController.swift */,
+				CC000030300000000000001B /* AppVault.swift */,
 				873D6401295FCC3E0095DEF7 /* AppResources.swift */,
 				87DE081A294DDA49004AD33A /* AppTheme.swift */,
 				87AAEE0129585ADC00C8E61C /* AppPreferences.swift */,
@@ -537,6 +520,7 @@
 			isa = PBXGroup;
 			children = (
 				870A51B4294702AF0095C7EB /* EditorViewController.swift */,
+				CC000031300000000000001B /* CommandBarController.swift */,
 				8767BBAE295A8BA500BFACAE /* EditorViewController+UI.swift */,
 				874065782BB505F500B5CE5A /* EditorViewController+Events.swift */,
 				870F17672985285B00003DA7 /* EditorViewController+Config.swift */,
@@ -637,14 +621,11 @@
 				870A519E294700DE0095C7EB /* Sources */,
 				870A519F294700DE0095C7EB /* Frameworks */,
 				870A51A0294700DE0095C7EB /* Resources */,
-				872924112951525C007156B1 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				87BFF24E298AB754006C31E4 /* PBXTargetDependency */,
-				8729240F2951525C007156B1 /* PBXTargetDependency */,
-				87152BA02EC599CA00B39F06 /* PBXTargetDependency */,
 			);
 			name = MarkEditMac;
 			packageProductDependencies = (
@@ -737,13 +718,17 @@
 				"zh-Hant",
 			);
 			mainGroup = 870A5199294700DE0095C7EB;
+			packageReferences = (
+				CC000040300000000000001B /* XCLocalSwiftPackageReference "MarkEditCore" */,
+				CC000041300000000000001B /* XCLocalSwiftPackageReference "MarkEditKit" */,
+				CC000042300000000000001B /* XCLocalSwiftPackageReference "Modules" */,
+				CC000043300000000000001B /* XCLocalSwiftPackageReference "MarkEditTools" */,
+			);
 			productRefGroup = 870A51A3294700DE0095C7EB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				870A51A1294700DE0095C7EB /* MarkEditMac */,
-				872923FF2951525C007156B1 /* PreviewExtension */,
-				87152B992EC599CA00B39F06 /* FinderExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -755,6 +740,8 @@
 			files = (
 				87ACA65C2C858AF4008E24BA /* chunks in Resources */,
 				870A51C9294752530095C7EB /* index.html in Resources */,
+				CC000032300000000000001A /* markedit-vim.js in Resources */,
+				CC000033300000000000001A /* markedit-vim-LICENSE in Resources */,
 				87132AA32C188FE900FD262B /* AppShortcuts.xcstrings in Resources */,
 				870A51AA294700E00095C7EB /* Assets.xcassets in Resources */,
 				8757F7FC2AAC815F001957DD /* Localizable.xcstrings in Resources */,
@@ -797,6 +784,7 @@
 				87BD071229699A290053EF5F /* EditorViewController+Preview.swift in Sources */,
 				878B7B9A2CE0DA8A00220F39 /* EditorViewController+FileVersion.swift in Sources */,
 				873D6402295FCC3E0095DEF7 /* AppResources.swift in Sources */,
+				CC000030300000000000001A /* AppVault.swift in Sources */,
 				870A51BC294702AF0095C7EB /* AppDelegate.swift in Sources */,
 				87FAFFD72BE0B6A300FA509D /* AppDelegate+FileSystem.swift in Sources */,
 				8780AC1E2982A2C900065EF4 /* EditorSettingsView.swift in Sources */,
@@ -817,6 +805,7 @@
 				87AA1224296560AE00BE4719 /* EditorViewController+HyperLink.swift in Sources */,
 				8725E0802977EEB3006A4961 /* EditorToolbarItems.swift in Sources */,
 				870A51B9294702AF0095C7EB /* EditorViewController.swift in Sources */,
+				CC000031300000000000001A /* CommandBarController.swift in Sources */,
 				8729C5A6294B5E6B006F262B /* EditorViewController+Menu.swift in Sources */,
 				87AAEDF7295825D800C8E61C /* EditorFindPanel+Delegate.swift in Sources */,
 				871C995B2973F1E6003FF3A7 /* AppDelegate+Document.swift in Sources */,
@@ -891,16 +880,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		87152BA02EC599CA00B39F06 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 87152B992EC599CA00B39F06 /* FinderExtension */;
-			targetProxy = 87152B9F2EC599CA00B39F06 /* PBXContainerItemProxy */;
-		};
-		8729240F2951525C007156B1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 872923FF2951525C007156B1 /* PreviewExtension */;
-			targetProxy = 8729240E2951525C007156B1 /* PBXContainerItemProxy */;
-		};
 		87BFF24E298AB754006C31E4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			productRef = 87BFF24D298AB754006C31E4 /* SwiftLint */;
@@ -1329,61 +1308,94 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		CC000040300000000000001B /* XCLocalSwiftPackageReference "MarkEditCore" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = MarkEditCore;
+		};
+		CC000041300000000000001B /* XCLocalSwiftPackageReference "MarkEditKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = MarkEditKit;
+		};
+		CC000042300000000000001B /* XCLocalSwiftPackageReference "Modules" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = MarkEditMac/Modules;
+		};
+		CC000043300000000000001B /* XCLocalSwiftPackageReference "MarkEditTools" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = MarkEditTools;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		8701D0A32CC12321006AF8C2 /* FileVersion */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = CC000042300000000000001B /* XCLocalSwiftPackageReference "Modules" */;
 			productName = FileVersion;
 		};
 		870F177C29855CA500003DA7 /* MarkEditKit */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = CC000041300000000000001B /* XCLocalSwiftPackageReference "MarkEditKit" */;
 			productName = MarkEditKit;
 		};
 		870F178D2985775B00003DA7 /* AppKitControls */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = CC000042300000000000001B /* XCLocalSwiftPackageReference "Modules" */;
 			productName = AppKitControls;
 		};
 		870F178F2985775B00003DA7 /* AppKitExtensions */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = CC000042300000000000001B /* XCLocalSwiftPackageReference "Modules" */;
 			productName = AppKitExtensions;
 		};
 		870F17912985775B00003DA7 /* Previewer */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = CC000042300000000000001B /* XCLocalSwiftPackageReference "Modules" */;
 			productName = Previewer;
 		};
 		870F17952985775B00003DA7 /* SettingsUI */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = CC000042300000000000001B /* XCLocalSwiftPackageReference "Modules" */;
 			productName = SettingsUI;
 		};
 		874823CD29B0BD980067EC49 /* TextCompletion */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = CC000042300000000000001B /* XCLocalSwiftPackageReference "Modules" */;
 			productName = TextCompletion;
 		};
 		8775A77A29867012005867BF /* FontPicker */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = CC000042300000000000001B /* XCLocalSwiftPackageReference "Modules" */;
 			productName = FontPicker;
 		};
 		8790ABDA2A98FF610083825C /* Statistics */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = CC000042300000000000001B /* XCLocalSwiftPackageReference "Modules" */;
 			productName = Statistics;
 		};
 		87B3ED8E2CBE1E12001FA6CE /* DiffKit */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = CC000042300000000000001B /* XCLocalSwiftPackageReference "Modules" */;
 			productName = DiffKit;
 		};
 		87BFF24D298AB754006C31E4 /* SwiftLint */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = CC000043300000000000001B /* XCLocalSwiftPackageReference "MarkEditTools" */;
 			productName = "plugin:SwiftLint";
 		};
 		87CC48FC29CC01E100BE1441 /* TextBundle */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = CC000042300000000000001B /* XCLocalSwiftPackageReference "Modules" */;
 			productName = TextBundle;
 		};
 		87EB9900295755DA00A56B97 /* MarkEditCore */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = CC000040300000000000001B /* XCLocalSwiftPackageReference "MarkEditCore" */;
 			productName = MarkEditCore;
 		};
 		CC000020300000000000FD02 /* FileDrop */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = CC000042300000000000001B /* XCLocalSwiftPackageReference "Modules" */;
 			productName = FileDrop;
 		};
 /* End XCSwiftPackageProductDependency section */

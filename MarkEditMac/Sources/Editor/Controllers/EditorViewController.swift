@@ -142,7 +142,8 @@ final class EditorViewController: NSViewController {
     let controller = WKUserContentController()
     controller.addScriptMessageHandler(handler, contentWorld: .page, name: "bridge")
 
-    let scripts = [
+    let bundledScripts = AppPreferences.Editor.vimMotions ? [Bundle.main.fileContents(named: "markedit-vim", extension: "js")] : []
+    let scripts = bundledScripts + [
       AppCustomization.editorScript.fileContents,
     ] + AppCustomization.scriptsDirectory.directoryContents
 

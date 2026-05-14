@@ -26,6 +26,7 @@ struct EditorSettingsView: View {
   @State private var lineHeight = AppPreferences.Editor.lineHeight
   @State private var tabKeyBehavior = AppPreferences.Editor.tabKeyBehavior
   @State private var indentUnit = AppPreferences.Editor.indentUnit
+  @State private var vimMotions = AppPreferences.Editor.vimMotions
 
   var body: some View {
     VStack(spacing: 0) {
@@ -140,6 +141,13 @@ struct EditorSettingsView: View {
         }
 
         Section {
+          Toggle("Vim motions", isOn: $vimMotions)
+            .onChange(of: vimMotions) {
+              AppPreferences.Editor.vimMotions = vimMotions
+            }
+            .formLabel("Keyboard")
+            .formBreathingInset()
+
           Picker(Localized.Settings.tabKeyBehavior, selection: $tabKeyBehavior) {
             Text(Localized.Settings.insertsTab).tag(TabKeyBehavior.insertTab)
             Text(Localized.Settings.insertsTwoSpaces).tag(TabKeyBehavior.insertTwoSpaces)

@@ -20,8 +20,15 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
     super.windowDidLoad()
     window?.backgroundColor = .controlBackgroundColor
 
-    windowFrameAutosaveName = "Editor"
-    window?.setFrameUsingName(windowFrameAutosaveName)
+    windowFrameAutosaveName = "NotesEditor"
+    let restoredFrame = window?.setFrameUsingName(windowFrameAutosaveName) ?? false
+    window?.level = .floating
+    window?.minSize = CGSize(width: 420, height: 300)
+    window?.maxSize = CGSize(width: 900, height: 900)
+    if !restoredFrame {
+      window?.setContentSize(CGSize(width: 640, height: 520))
+      window?.center()
+    }
     saveWindowRect()
   }
 

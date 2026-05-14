@@ -56,6 +56,11 @@ extension EditorViewController {
         return nil
       }
 
+      if event.keyCode == 0x28, event.userModifierFlags == .command, let self {
+        self.showCommandBar()
+        return nil
+      }
+
       // Press Fn-Control-F to fill the window, see #1167
       if event.keyCode == .kVK_ANSI_F, event.deviceIndependentFlags == [.function, .control] {
         NSApp.sendAction(sel_getUid("_zoomFill:"), to: nil, from: nil)

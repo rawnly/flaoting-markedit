@@ -37,4 +37,12 @@ extension Bundle {
 
     return defaultAppBundleID == bundleIdentifier
   }
+
+  func fileContents(named name: String, extension ext: String) -> String {
+    guard let url = url(forResource: name, withExtension: ext) else {
+      return ""
+    }
+
+    return (try? String(contentsOf: url, encoding: .utf8)) ?? ""
+  }
 }

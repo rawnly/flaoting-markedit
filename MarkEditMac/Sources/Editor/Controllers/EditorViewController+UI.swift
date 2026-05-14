@@ -336,6 +336,22 @@ extension EditorViewController {
     presentedPopover?.close()
   }
 
+  func showCommandBar() {
+    removeFloatingUIElements()
+
+    let popover = NSPopover()
+    popover.behavior = .transient
+    popover.contentSize = CGSize(width: 520, height: 320)
+    popover.contentViewController = CommandBarController()
+    presentedPopover = popover
+
+    popover.show(
+      relativeTo: CGRect(x: view.bounds.midX - 1, y: view.bounds.maxY - view.safeAreaInsets.top - 8, width: 2, height: 2),
+      of: view,
+      preferredEdge: .maxY
+    )
+  }
+
   @discardableResult
   func removePresentedPopovers(contentClass: AnyClass) -> Bool {
     guard let presented = presentedViewControllers?.filter({ $0.isKind(of: contentClass) }) else {
