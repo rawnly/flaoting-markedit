@@ -182,22 +182,9 @@ enum Localized {
     static let newFilenameExtension = String(localized: "New Filename Extension:", comment: "Filename extension for new files")
     static let defaultTextEncoding = String(localized: "Default Text Encoding:", comment: "Text encoding for opening and saving files")
     static let defaultLineEndings = String(localized: "Default Line Endings:", comment: "Line endings for creating new files")
-    static let macOSLineEndings = String(localized: "macOS / Unix (LF)", comment: "Line endings used on macOS and Unix")
+    static let macOSLineEndings = String(localized: "macOS / Unix (LF)", comment: "Line Endings used on macOS and Unix")
     static let windowsLineEndings = String(localized: "Windows (CRLF)", comment: "Line endings used on Windows")
     static let classicMacLineEndings = String(localized: "Classic Mac OS (CR)", comment: "Line endings used on Classic Mac OS")
-
-    // Window
-    static let window = String(localized: "Window", comment: "Window title for window settings")
-    static let toolbarMode = String(localized: "Toolbar Mode:", comment: "Label for window toolbar mode")
-    static let normalMode = String(localized: "Normal", comment: "Normal mode for window toolbar")
-    static let compactMode = String(localized: "Compact", comment: "Compact mode for window toolbar")
-    static let hiddenMode = String(localized: "Hidden", comment: "Hidden mode for window toolbar")
-    static let tabbingMode = String(localized: "Tabbing Mode:", comment: "Label for window tabbing mode settings")
-    static let automatic = String(localized: "Automatic", comment: "Automatic window tabbing mode")
-    static let preferred = String(localized: "Preferred", comment: "Preferred window tabbing mode")
-    static let disallowed = String(localized: "Disallowed", comment: "Disallowed window tabbing mode")
-    static let reduceTransparencyLabel = String(localized: "Reduce Transparency:", comment: "Label for the option to reduce window transparency")
-    static let reduceTransparencyDescription = String(localized: "Remove the toolbar blur", comment: "Explanation for the option to reduce window transparency")
   }
 
   enum FileVersion {

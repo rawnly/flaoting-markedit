@@ -19,8 +19,4 @@ extension SettingsTabViewController {
   static var general: Self {
     Self(GeneralSettingsView(), title: Localized.Settings.general, icon: Icons.gearshape)
   }
-
-  static var window: Self {
-    Self(WindowSettingsView(), title: Localized.Settings.window, icon: Icons.macwindow)
-  }
 }

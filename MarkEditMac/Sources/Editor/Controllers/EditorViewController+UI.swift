@@ -134,7 +134,7 @@ extension EditorViewController {
   }
 
   func updateWindowColors(_ theme: AppTheme) {
-    let backgroundColor = webBackgroundColor ?? theme.windowBackground
+    let backgroundColor = webBackgroundColor
     view.window?.backgroundColor = backgroundColor
     view.window?.toolbarContainerView?.layerBackgroundColor = backgroundColor
 

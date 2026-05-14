@@ -18,7 +18,26 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
 
   override func windowDidLoad() {
     super.windowDidLoad()
-    window?.backgroundColor = .controlBackgroundColor
+
+    // Disable window tabbing and restore a classic macOS window style (like Xcode or Raycast),
+    // not glassy/translucent.
+    if let window {
+      window.tabbingMode = .disallowed
+      var newStyleMask = window.styleMask
+      newStyleMask.remove(.fullSizeContentView) // remove fullSizeContentView if present to apply visual effect clearly
+      window.styleMask = newStyleMask
+
+      // Set window background color to .windowBackgroundColor or .controlBackgroundColor as fallback
+      window.backgroundColor = NSColor.windowBackgroundColor
+
+      // Insert a NSVisualEffectView as the background with classic macOS window style
+      let visualEffectView = NSVisualEffectView(frame: window.contentView?.bounds ?? .zero)
+      visualEffectView.autoresizingMask = [.width, .height]
+      visualEffectView.blendingMode = .behindWindow
+      visualEffectView.state = .active
+//      visualEffectView.material = .window
+      window.contentView?.addSubview(visualEffectView, positioned: .below, relativeTo: nil)
+    }
 
     windowFrameAutosaveName = "NotesEditor"
     let restoredFrame = window?.setFrameUsingName(windowFrameAutosaveName) ?? false
@@ -29,6 +48,8 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
       window?.setContentSize(CGSize(width: 640, height: 520))
       window?.center()
     }
+    window?.tabbingMode = .disallowed
+
     saveWindowRect()
   }
 

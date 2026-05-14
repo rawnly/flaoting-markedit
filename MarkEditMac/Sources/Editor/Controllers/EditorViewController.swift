@@ -26,7 +26,8 @@ final class EditorViewController: NSViewController {
   var nativeSearchQueryChanged = false
   var bottomPanelHeight: Double = 0
   var initialContent: String?
-  var webBackgroundColor = AppPreferences.Window.cachedBackgroundColor?.nsColor
+  // Use windowBackgroundColor for base background color — ensures classic Mac appearance with subtle vibrancy but no extreme transparency
+  var webBackgroundColor = NSColor.windowBackgroundColor
   var localEventMonitor: Any?
   var textBoxInputObserver: Any?
   var writingToolsObservation: NSKeyValueObservation?
@@ -86,9 +87,24 @@ final class EditorViewController: NSViewController {
     return findPanel.isFirstResponder || replacePanel.isFirstResponder
   }
 
-  // Custom views to apply modern effects (either glass or blur) to the title bar
+  // Custom views to apply modern effects (either glass, blur, or visual effect) to the title bar,
+  // safely supporting both NSVisualEffectView and NSGlassEffectView.
   let modernBackgroundView = NSView()
-  let modernEffectView = AppDesign.modernEffectView.init()
+  let modernEffectView: NSView = {
+    let effectView = AppDesign.modernEffectView.init()
+    if let blurView = effectView as? NSVisualEffectView {
+      blurView.material = .contentBackground
+      blurView.blendingMode = .behindWindow
+      blurView.state = .followsWindowActiveState
+    }
+    if #available(macOS 26.0, *), let glassView = effectView as? NSGlassEffectView {
+      // Configure glass-specific properties as needed
+    }
+    effectView.wantsLayer = true
+    // Avoid reducing alpha to prevent excessive translucency.
+    effectView.alphaValue = 1.0
+    return effectView
+  }()
   let modernTintedView = NSView()
   let modernDividerView = DividerView()
 

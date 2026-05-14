@@ -208,7 +208,6 @@ private extension AppDelegate {
         .editor,
         .assistant,
         .general,
-        .window,
       ])
 
       // The window size relies on the SwiftUI content view size, it takes time

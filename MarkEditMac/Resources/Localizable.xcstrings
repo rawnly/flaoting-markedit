@@ -280,6 +280,7 @@
     },
     "Automatic" : {
       "comment" : "Automatic window tabbing mode",
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -489,6 +490,7 @@
     },
     "Compact" : {
       "comment" : "Compact mode for window toolbar",
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -809,6 +811,7 @@
     },
     "Disallowed" : {
       "comment" : "Disallowed window tabbing mode",
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1360,6 +1363,7 @@
     },
     "Hidden" : {
       "comment" : "Hidden mode for window toolbar",
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1789,7 +1793,7 @@
       }
     },
     "macOS / Unix (LF)" : {
-      "comment" : "Line endings used on macOS and Unix",
+      "comment" : "Line Endings used on macOS and Unix",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2008,7 +2012,7 @@
       }
     },
     "Normal" : {
-      "comment" : "Normal line spacing\nNormal mode for window toolbar",
+      "comment" : "Normal line spacing",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2131,6 +2135,7 @@
     },
     "Preferred" : {
       "comment" : "Preferred window tabbing mode",
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2267,6 +2272,7 @@
     },
     "Reduce Transparency:" : {
       "comment" : "Label for the option to reduce window transparency",
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2335,6 +2341,7 @@
     },
     "Remove the toolbar blur" : {
       "comment" : "Explanation for the option to reduce window transparency",
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2844,6 +2851,7 @@
     },
     "Tabbing Mode:" : {
       "comment" : "Label for window tabbing mode settings",
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3014,6 +3022,7 @@
     },
     "Toolbar Mode:" : {
       "comment" : "Label for window toolbar mode",
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3219,6 +3228,7 @@
     },
     "Window" : {
       "comment" : "Window title for window settings",
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
