@@ -446,9 +446,9 @@ enum NewFilenameExtension: String, Codable, CaseIterable {
 
   /// Exported types, used as a key in `UTExportedTypeDeclarations` only.
   ///
-  /// Markdown types are customized, like `app.markedit.*`, to avoid unpredictable association by the system.
+  /// Markdown types are customized, like `app.dot.*`, to avoid unpredictable association by the system.
   var exportedType: String {
-    "app.markedit.\(rawValue)"
+    "app.dot.\(rawValue)"
   }
 
   var uniformType: UTType {

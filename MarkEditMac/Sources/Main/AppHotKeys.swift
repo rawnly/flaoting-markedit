@@ -176,7 +176,7 @@ private func handleEvent(_ event: EventRef?) -> OSStatus {
   return noErr
 }
 
-// OSType of "MEHK" (MarkEdit HotKey)
+  // OSType of "MEHK" (Dot HotKey)
 private let hotKeySignature: UInt32 = 1296386123
 
 // https://gist.github.com/eegrok/949034

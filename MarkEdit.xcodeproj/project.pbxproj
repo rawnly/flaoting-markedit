@@ -102,7 +102,7 @@
 		87F2B61429AF2F3A0027103E /* NSSpellChecker+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F2B61329AF2F3A0027103E /* NSSpellChecker+Extension.swift */; };
 		87FAFFD72BE0B6A300FA509D /* AppDelegate+FileSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87FAFFD62BE0B6A300FA509D /* AppDelegate+FileSystem.swift */; };
 		9AC9EF0A2FB68063009854B9 /* REMOVE_WindowSettingsView.swift.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9AC9EF092FB68063009854B9 /* REMOVE_WindowSettingsView.swift.txt */; };
-		B0E02F682D8F77A50060DEA5 /* MarkEdit.sdef in Resources */ = {isa = PBXBuildFile; fileRef = B0E02F672D8F77A50060DEA5 /* MarkEdit.sdef */; };
+		B0E02F682D8F77A50060DEA5 /* Dot.sdef in Resources */ = {isa = PBXBuildFile; fileRef = B0E02F672D8F77A50060DEA5 /* Dot.sdef */; };
 		CC000002300000000000001A /* EditorDocument+ClosedTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC000002300000000000001B /* EditorDocument+ClosedTab.swift */; };
 		CC000003300000000000001A /* AppDelegate+ClosedTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC000003300000000000001B /* AppDelegate+ClosedTab.swift */; };
 		CC000004300000000000001A /* EditorSelectionHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC000004300000000000001B /* EditorSelectionHistory.swift */; };
@@ -110,8 +110,8 @@
 		CC000020300000000000FD01 /* FileDrop in Frameworks */ = {isa = PBXBuildFile; productRef = CC000020300000000000FD02 /* FileDrop */; };
 		CC000030300000000000001A /* AppVault.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC000030300000000000001B /* AppVault.swift */; };
 		CC000031300000000000001A /* CommandBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC000031300000000000001B /* CommandBarController.swift */; };
-		CC000032300000000000001A /* markedit-vim.js in Resources */ = {isa = PBXBuildFile; fileRef = CC000032300000000000001B /* markedit-vim.js */; };
-		CC000033300000000000001A /* markedit-vim-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = CC000033300000000000001B /* markedit-vim-LICENSE */; };
+		CC000032300000000000001A /* dot-vim.js in Resources */ = {isa = PBXBuildFile; fileRef = CC000032300000000000001B /* dot-vim.js */; };
+		CC000033300000000000001A /* dot-vim-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = CC000033300000000000001B /* dot-vim-LICENSE */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -119,7 +119,7 @@
 		87067E2629755D5C0052E795 /* EditorStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorStatusView.swift; sourceTree = "<group>"; };
 		87091B992A963C6B00F5EF0D /* EditorTextInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorTextInput.swift; sourceTree = "<group>"; };
 		8709C69D29B4412F009EABB5 /* AssistantSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssistantSettingsView.swift; sourceTree = "<group>"; };
-		870A51A2294700DE0095C7EB /* MarkEdit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarkEdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		870A51A2294700DE0095C7EB /* Dot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		870A51A9294700E00095C7EB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		870A51AC294700E00095C7EB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		870A51AE294700E00095C7EB /* Info.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Info.entitlements; sourceTree = "<group>"; };
@@ -220,15 +220,15 @@
 		87F2B61329AF2F3A0027103E /* NSSpellChecker+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSSpellChecker+Extension.swift"; sourceTree = "<group>"; };
 		87FAFFD62BE0B6A300FA509D /* AppDelegate+FileSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+FileSystem.swift"; sourceTree = "<group>"; };
 		9AC9EF092FB68063009854B9 /* REMOVE_WindowSettingsView.swift.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = REMOVE_WindowSettingsView.swift.txt; sourceTree = "<group>"; };
-		B0E02F672D8F77A50060DEA5 /* MarkEdit.sdef */ = {isa = PBXFileReference; lastKnownFileType = text; path = MarkEdit.sdef; sourceTree = "<group>"; };
+		B0E02F672D8F77A50060DEA5 /* Dot.sdef */ = {isa = PBXFileReference; lastKnownFileType = text; path = Dot.sdef; sourceTree = "<group>"; };
 		CC000002300000000000001B /* EditorDocument+ClosedTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditorDocument+ClosedTab.swift"; sourceTree = "<group>"; };
 		CC000003300000000000001B /* AppDelegate+ClosedTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+ClosedTab.swift"; sourceTree = "<group>"; };
 		CC000004300000000000001B /* EditorSelectionHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorSelectionHistory.swift; sourceTree = "<group>"; };
 		CC000006300000000000001B /* EditorClosedTabHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorClosedTabHistory.swift; sourceTree = "<group>"; };
 		CC000030300000000000001B /* AppVault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVault.swift; sourceTree = "<group>"; };
 		CC000031300000000000001B /* CommandBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarController.swift; sourceTree = "<group>"; };
-		CC000032300000000000001B /* markedit-vim.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "markedit-vim.js"; sourceTree = "<group>"; };
-		CC000033300000000000001B /* markedit-vim-LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = "markedit-vim-LICENSE"; sourceTree = "<group>"; };
+		CC000032300000000000001B /* dot-vim.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "dot-vim.js"; sourceTree = "<group>"; };
+		CC000033300000000000001B /* dot-vim-LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = "dot-vim-LICENSE"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -276,7 +276,7 @@
 		870A51A3294700DE0095C7EB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				870A51A2294700DE0095C7EB /* MarkEdit.app */,
+				870A51A2294700DE0095C7EB /* Dot.app */,
 				872924002951525C007156B1 /* PreviewExtension.appex */,
 				87152B9A2EC599CA00B39F06 /* FinderExtension.appex */,
 			);
@@ -310,12 +310,12 @@
 			children = (
 				87ACA65B2C858AF4008E24BA /* chunks */,
 				870A51C8294752530095C7EB /* index.html */,
-				CC000032300000000000001B /* markedit-vim.js */,
-				CC000033300000000000001B /* markedit-vim-LICENSE */,
+				CC000032300000000000001B /* dot-vim.js */,
+				CC000033300000000000001B /* dot-vim-LICENSE */,
 				870A51A9294700E00095C7EB /* Assets.xcassets */,
 				876D70862E7A8E9D00E308A4 /* AppIcon.icon */,
 				8757F7FB2AAC815F001957DD /* Localizable.xcstrings */,
-				B0E02F672D8F77A50060DEA5 /* MarkEdit.sdef */,
+				B0E02F672D8F77A50060DEA5 /* Dot.sdef */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -615,8 +615,8 @@
 				8701D0A32CC12321006AF8C2 /* FileVersion */,
 				CC000020300000000000FD02 /* FileDrop */,
 			);
-			productName = MarkEdit;
-			productReference = 870A51A2294700DE0095C7EB /* MarkEdit.app */;
+			productName = Dot;
+			productReference = 870A51A2294700DE0095C7EB /* Dot.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -669,14 +669,14 @@
 				9AC9EF0A2FB68063009854B9 /* REMOVE_WindowSettingsView.swift.txt in Resources */,
 				87ACA65C2C858AF4008E24BA /* chunks in Resources */,
 				870A51C9294752530095C7EB /* index.html in Resources */,
-				CC000032300000000000001A /* markedit-vim.js in Resources */,
-				CC000033300000000000001A /* markedit-vim-LICENSE in Resources */,
+				CC000032300000000000001A /* dot-vim.js in Resources */,
+				CC000033300000000000001A /* dot-vim-LICENSE in Resources */,
 				87132AA32C188FE900FD262B /* AppShortcuts.xcstrings in Resources */,
 				870A51AA294700E00095C7EB /* Assets.xcassets in Resources */,
 				8757F7FC2AAC815F001957DD /* Localizable.xcstrings in Resources */,
 				876D70872E7A8E9D00E308A4 /* AppIcon.icon in Resources */,
 				870A51AD294700E00095C7EB /* Main.storyboard in Resources */,
-				B0E02F682D8F77A50060DEA5 /* MarkEdit.sdef in Resources */,
+				B0E02F682D8F77A50060DEA5 /* Dot.sdef in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -957,7 +957,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MarkEditMac/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = MarkEdit;
+				INFOPLIST_KEY_CFBundleDisplayName = Dot;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
@@ -969,7 +969,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(inherited)";
-				PRODUCT_NAME = MarkEdit;
+				PRODUCT_NAME = Dot;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -993,7 +993,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MarkEditMac/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = MarkEdit;
+				INFOPLIST_KEY_CFBundleDisplayName = Dot;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
@@ -1005,7 +1005,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(inherited)";
-				PRODUCT_NAME = MarkEdit;
+				PRODUCT_NAME = Dot;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};

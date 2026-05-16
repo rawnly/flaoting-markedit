@@ -77,7 +77,7 @@ private extension AppDelegate {
       return
     }
 
-    // Basically, we wouldn't expect to see "MarkEdit.app"
+    // Basically, we wouldn't expect to see "Dot.app"
     let appURLs = NSWorkspace.shared.urlsForApplications(toOpen: fileURL).filter {
       $0.lastPathComponent != Bundle.main.bundleURL.lastPathComponent
     }

@@ -200,9 +200,9 @@ enum Localized {
   }
 
   enum Scripting {
-    static let missingCommandErrorMessage = String(localized: "Couldn’t find a command to handle incoming Apple Event.", comment: "Script error when MarkEdit has no command to handle the incoming Apple Event")
+    static let missingCommandErrorMessage = String(localized: "Couldn’t find a command to handle incoming Apple Event.", comment: "Script error when Dot has no command to handle the incoming Apple Event")
     static let missingArgumentErrorMessage = String(localized: "Argument “%@” not found in event descriptor, the descriptor is likely malformed.", comment: "Script error when a command argument is missing due to a corrupted Apple Event")
-    static let editorNotFoundErrorMessage = String(localized: "No editor for document “%@” found.", comment: "Script error when MarkEdit cannot find the editor view to run document commands in")
+    static let editorNotFoundErrorMessage = String(localized: "No editor for document “%@” found.", comment: "Script error when Dot cannot find the editor view to run document commands in")
     static let jsEvaluationErrorMessage = String(localized: "JavaScript evaluation failed at line %d, column %d: %@", comment: "Script error when JavaScript evaluation raises a detailed error")
     static let unknownJSErrorMessage = String(localized: "JavaScript evaluation failed for an unknown reason.", comment: "Script error when JavaScript evaluation raises an error with no details")
     static let invalidDestinationErrorMessage = String(localized: "Cannot export files with extension “%@”, supported extensions: %@.", comment: "Script error when attempting to save files with an unsupported extension")
@@ -211,8 +211,8 @@ enum Localized {
 
   enum Updater {
     static let upToDateTitle = String(localized: "You’re up-to-date!", comment: "Title for the up-to-date info")
-    static let upToDateMessage = String(localized: "MarkEdit %@ is currently the latest version.", comment: "Message for the up-to-date info")
-    static let newVersionAvailable = String(localized: "MarkEdit %@ is available!", comment: "Title for new version available")
+    static let upToDateMessage = String(localized: "Dot %@ is currently the latest version.", comment: "Message for the up-to-date info")
+    static let newVersionAvailable = String(localized: "Dot %@ is available!", comment: "Title for new version available")
     static let updateFailedTitle = String(localized: "Failed to get the update.", comment: "Title for failed to get the update")
     static let updateFailedMessage = String(localized: "Please check your network connection or get the latest release from the version history.", comment: "Message for failed to get the update")
     static let needsOSUpdateMessage = String(localized: "This release requires macOS %@ or later and cannot be installed without upgrading your operating system.", comment: "Message for minimum required OS version")

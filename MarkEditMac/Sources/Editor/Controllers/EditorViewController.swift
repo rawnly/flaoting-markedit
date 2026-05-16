@@ -234,7 +234,7 @@ final class EditorViewController: NSViewController {
     controller.addScriptMessageHandler(handler, contentWorld: .page, name: "bridge")
 
     let bundledScripts = AppPreferences.Editor.vimMotions ? [
-      Bundle.main.fileContents(named: "markedit-vim", extension: "js"),
+      Bundle.main.fileContents(named: "dot-vim", extension: "js"),
       EditorBundledScripts.vimStatusChrome,
     ] : []
     let scripts = bundledScripts + [

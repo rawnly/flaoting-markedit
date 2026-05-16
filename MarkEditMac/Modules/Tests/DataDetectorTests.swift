@@ -9,7 +9,7 @@ import XCTest
 
 final class DataDetectorTests: XCTestCase {
   func testExtractURL() {
-    let url = NSDataDetector.extractURL(from: "Check it out https://markedit.app.")
-    XCTAssertEqual(url, "https://markedit.app")
+    let url = NSDataDetector.extractURL(from: "Check it out https://dot.app.")
+    XCTAssertEqual(url, "https://dot.app")
   }
 }

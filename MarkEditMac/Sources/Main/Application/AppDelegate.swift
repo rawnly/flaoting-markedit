@@ -181,10 +181,10 @@ extension AppDelegate {
       let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
       switch components?.host {
       case "new-file":
-        // markedit://new-file?filename=Untitled&initial-content=Hello
+        // dot://new-file?filename=Untitled&initial-content=Hello
         createNewFile(queryDict: components?.queryDict)
       case "open":
-        // markedit://open or markedit://open?path=Untitled.md
+        // dot://open or dot://open?path=Untitled.md
         openFile(queryDict: components?.queryDict)
       default:
         break

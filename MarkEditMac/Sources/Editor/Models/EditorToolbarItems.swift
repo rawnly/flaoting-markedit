@@ -148,7 +148,7 @@ extension NSToolbarItem.Identifier {
 
 private extension NSToolbarItem.Identifier {
   static func newItem(_ identifier: String) -> Self {
-    Self("app.markedit.editor.\(identifier)")
+    Self("app.dot.editor.\(identifier)")
   }
 
   var itemLabel: String {

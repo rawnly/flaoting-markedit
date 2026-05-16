@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
-<dictionary title="MarkEdit Terminology" xmlns:xi="http://www.w3.org/2001/XInclude">
+<dictionary title="Dot Terminology" xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="file:///System/Library/ScriptingDefinitions/CocoaStandard.sdef" xpointer="xpointer(/dictionary/suite)"/>
 
   <suite name="Text Suite" code="????" description="A set of basic classes for text processing.">
@@ -57,7 +57,7 @@
     </class>
   </suite>
 
-  <suite name="MarkEdit Suite" code="mked" description="MarkEdit specific classes.">
+  <suite name="Dot Suite" code="mked" description="Dot specific classes.">
     <enumeration name="saveable file format" code="savf" description="File formats for the save command.">
       <documentation>
         <html>
@@ -65,13 +65,13 @@
         </html>
        </documentation>
       <enumerator name="Plain Text" code="txt " description="Plain text format using the &quot;.txt&quot; extension.">
-        <cocoa string-value="app.markedit.txt"/>
+        <cocoa string-value="app.dot.txt"/>
       </enumerator>
       <enumerator name="Markdown" code="md  " description="Markdown format using the &quot;.md&quot; extension.">
-        <cocoa string-value="app.markedit.md"/>
+        <cocoa string-value="app.dot.md"/>
       </enumerator>
       <enumerator name="MarkdownFull" code="mkdn" description="Markdown format using the &quot;.markdown&quot; extension">
-        <cocoa string-value="app.markedit.markdown"/>
+        <cocoa string-value="app.dot.markdown"/>
       </enumerator>
       <enumerator name="TextBundle" code="txtb" description="Text Bundle format using the &quot;.textbundle&quot; extension.">
         <cocoa string-value="org.textbundle.package"/>
@@ -89,7 +89,7 @@
         </result>
     </command>
 
-    <class name="document" code="docu" description="A MarkEdit document." plural="documents" inherits="document">
+    <class name="document" code="docu" description="A Dot document." plural="documents" inherits="document">
       <cocoa class="MarkEdit.EditorDocument"/>
       <property name="source" code="mdsc" type="text" access="rw" description="The raw markdown source of the document.">
         <cocoa key="scriptingSource"/>
@@ -107,4 +107,3 @@
   </suite>
 
 </dictionary>
-

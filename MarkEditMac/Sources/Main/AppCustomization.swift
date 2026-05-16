@@ -11,7 +11,7 @@ import MarkEditKit
 /**
  Style sheet, script and config files to change the appearance and behavior of the app.
 
- Files are located at ~/Library/Containers/app.cyan.markedit/Data/Documents/
+ Files are located at ~/Library/Containers/com.federicovitale.dot/Data/Documents/
  */
 struct AppCustomization {
   enum FileType {

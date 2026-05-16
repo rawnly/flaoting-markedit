@@ -204,15 +204,15 @@ private extension AppUpdater {
     mainUpdateItem?.title = String(format: Localized.Updater.newVersionOut, newVersion.name)
     mainUpdateItem?.isHidden = false
 
-    delegate.presentUpdateItem?.addAction("app.markedit.present-update") {
+    delegate.presentUpdateItem?.addAction("app.dot.present-update") {
       NSWorkspace.shared.safelyOpenURL(string: newVersion.htmlUrl)
     }
 
-    delegate.postponeUpdateItem?.addAction("app.markedit.postpone-update") {
+    delegate.postponeUpdateItem?.addAction("app.dot.postpone-update") {
       mainUpdateItem?.isHidden = true
     }
 
-    delegate.ignoreUpdateItem?.addAction("app.markedit.ignore-update") {
+    delegate.ignoreUpdateItem?.addAction("app.dot.ignore-update") {
       mainUpdateItem?.isHidden = true
       AppPreferences.Updater.skippedVersions.insert(newVersion.name)
     }
