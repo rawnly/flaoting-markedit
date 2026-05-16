@@ -217,7 +217,7 @@ extension EditorViewController {
 
     let commandBarController = CommandBarController()
     let panel = CommandBarPanel(
-      contentRect: CGRect(x: 0, y: 0, width: 520, height: 320),
+      contentRect: CGRect(x: 0, y: 0, width: 540, height: 340),
       styleMask: [.borderless],
       backing: .buffered,
       defer: false

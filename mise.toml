@@ -1,0 +1,11 @@
+[tasks.build]
+run = "xcodebuild -scheme \"MarkEditMac\" -configuration Debug build"
+
+[tasks.lint]
+run = "xcodebuild -scheme \"MarkEditMac\" -configuration Debug build"
+
+[tasks.test]
+run = "xcodebuild -scheme \"MarkEditMac\" -configuration Debug test"
+
+[tasks.run]
+run = "open \"$HOME/Library/Developer/Xcode/DerivedData/MarkEdit-datmxqyphwatevcflwuhsdwxkyzm/Build/Products/Debug/Dot.app\""
