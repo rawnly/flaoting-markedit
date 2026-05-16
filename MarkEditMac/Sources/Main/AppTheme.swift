@@ -21,7 +21,7 @@ struct AppTheme {
   }
 
   static func withName(_ name: String) -> Self {
-    allCases.first { $0.editorTheme == name } ?? GitHubLight
+    allCases.first { $0.editorTheme == name } ?? (NSApplication.shared.isDarkMode ? XcodeDark : XcodeLight)
   }
 
   /// Get a "resolved" appearance name based on the current effective appearance.
@@ -42,36 +42,7 @@ struct AppTheme {
 
 extension AppTheme: CaseIterable, Hashable, CustomStringConvertible {
   static var allCases: [AppTheme] {
-    [
-      GitHubLight, GitHubDark,
-      XcodeLight, XcodeDark,
-      Dracula,
-      Cobalt,
-      WinterIsComingLight, WinterIsComingDark,
-      MinimalLight, MinimalDark,
-      SynthWave84,
-      NightOwl,
-      RosePineDawn, RosePine,
-      SolarizedLight, SolarizedDark,
-    ]
-  }
-
-  static var GitHubLight: Self {
-    Self(
-      isDark: false,
-      editorTheme: "github-light",
-      windowBackground: NSColor(hexCode: 0xffffff),
-      prefersTintedToolbar: false
-    )
-  }
-
-  static var GitHubDark: Self {
-    Self(
-      isDark: true,
-      editorTheme: "github-dark",
-      windowBackground: NSColor(hexCode: 0x0d1116),
-      prefersTintedToolbar: true
-    )
+    [XcodeLight, XcodeDark]
   }
 
   static var XcodeLight: Self {
@@ -202,38 +173,10 @@ extension AppTheme: CaseIterable, Hashable, CustomStringConvertible {
 
   var description: String {
     switch self {
-    case Self.GitHubLight:
-      return "GitHub (Light)"
-    case Self.GitHubDark:
-      return "GitHub (Dark)"
     case Self.XcodeLight:
       return "Xcode (Light)"
     case Self.XcodeDark:
       return "Xcode (Dark)"
-    case Self.Dracula:
-      return "Dracula"
-    case Self.Cobalt:
-      return "Cobalt"
-    case Self.WinterIsComingLight:
-      return "Winter is Coming (Light)"
-    case Self.WinterIsComingDark:
-      return "Winter is Coming (Dark)"
-    case Self.MinimalLight:
-      return "Minimal (Light)"
-    case Self.MinimalDark:
-      return "Minimal (Dark)"
-    case Self.SynthWave84:
-      return "SynthWave '84"
-    case Self.NightOwl:
-      return "Night Owl"
-    case Self.RosePineDawn:
-      return "Rosé Pine Dawn"
-    case Self.RosePine:
-      return "Rosé Pine"
-    case Self.SolarizedLight:
-      return "Solarized (Light)"
-    case Self.SolarizedDark:
-      return "Solarized (Dark)"
     default:
       fatalError("Invalid theme was found")
     }

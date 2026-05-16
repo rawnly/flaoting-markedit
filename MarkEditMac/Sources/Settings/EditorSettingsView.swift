@@ -14,8 +14,6 @@ import MarkEditKit
 
 @MainActor
 struct EditorSettingsView: View {
-  @State private var lightTheme = AppPreferences.Editor.lightTheme
-  @State private var darkTheme = AppPreferences.Editor.darkTheme
   @State private var showLineNumbers = AppPreferences.Editor.showLineNumbers
   @State private var showActiveLineIndicator = AppPreferences.Editor.showActiveLineIndicator
   @State private var showSelectionStatus = AppPreferences.Editor.showSelectionStatus
@@ -38,32 +36,6 @@ struct EditorSettingsView: View {
       Divider()
 
       SettingsForm {
-        Section {
-          Picker(Localized.Settings.lightTheme, selection: $lightTheme) {
-            createThemePicker()
-          }
-          .onChange(of: lightTheme) {
-            if lightTheme == Constants.customThemesTag {
-              getCustomThemes(selection: $lightTheme, revertTo: AppPreferences.Editor.lightTheme)
-            } else {
-              AppPreferences.Editor.lightTheme = lightTheme
-            }
-          }
-          .formMenuPicker()
-
-          Picker(Localized.Settings.darkTheme, selection: $darkTheme) {
-            createThemePicker()
-          }
-          .onChange(of: darkTheme) {
-            if darkTheme == Constants.customThemesTag {
-              getCustomThemes(selection: $darkTheme, revertTo: AppPreferences.Editor.darkTheme)
-            } else {
-              AppPreferences.Editor.darkTheme = darkTheme
-            }
-          }
-          .formMenuPicker()
-        }
-
         Section {
           VStack(alignment: .leading) {
             Toggle(isOn: $showLineNumbers) {
@@ -178,11 +150,6 @@ struct EditorSettingsView: View {
 // MARK: - Private
 
 private extension EditorSettingsView {
-  enum Constants {
-    static let customThemesTag = "$customThemes"
-    static let customThemesLink = "https://github.com/MarkEdit-app/MarkEdit/wiki/Extensions#list-of-themes"
-  }
-
   var fontPickerConfiguration: FontPickerConfiguration {
     FontPickerConfiguration(
       modernStyle: AppDesign.modernStyle,
@@ -207,28 +174,5 @@ private extension EditorSettingsView {
         AppPreferences.Editor.fontSize = fontSize
       }
     )
-  }
-
-  @ViewBuilder
-  func createThemePicker() -> some View {
-    ForEach(AppTheme.allCases, id: \.self) {
-      Text($0.description).tag($0.editorTheme)
-    }
-
-    Divider()
-
-    HStack {
-      Image(systemName: Icons.wandAndSparkles)
-      Text(Localized.Settings.getCustomThemes)
-    }.tag(Constants.customThemesTag)
-  }
-
-  func getCustomThemes(selection: Binding<String>, revertTo value: String) {
-    NSWorkspace.shared.safelyOpenURL(string: Constants.customThemesLink)
-
-    // In macOS Tahoe, this requires a delay to work
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-      selection.wrappedValue = value
-    }
   }
 }

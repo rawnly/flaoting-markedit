@@ -207,6 +207,59 @@ extension EditorViewController {
     }
   }
 
+  func showCommandBar() {
+    if let commandBarWindow {
+      commandBarWindow.makeKeyAndOrderFront(nil)
+      return
+    }
+
+    let commandBarController = CommandBarController()
+    let panel = NSPanel(
+      contentRect: CGRect(x: 0, y: 0, width: 520, height: 320),
+      styleMask: [.titled, .fullSizeContentView],
+      backing: .buffered,
+      defer: false
+    )
+
+    panel.contentViewController = commandBarController
+    panel.level = .floating
+    panel.collectionBehavior = [.transient, .moveToActiveSpace, .fullScreenAuxiliary]
+    panel.hidesOnDeactivate = true
+    panel.isReleasedWhenClosed = false
+    panel.titleVisibility = .hidden
+    panel.titlebarAppearsTransparent = true
+    panel.standardWindowButton(.closeButton)?.isHidden = true
+    panel.standardWindowButton(.miniaturizeButton)?.isHidden = true
+    panel.standardWindowButton(.zoomButton)?.isHidden = true
+
+    if let window = view.window {
+      panel.setFrameOrigin(CGPoint(
+        x: window.frame.midX - panel.frame.width / 2,
+        y: window.frame.midY - panel.frame.height / 2
+      ))
+      window.addChildWindow(panel, ordered: .above)
+    } else {
+      panel.center()
+    }
+
+    commandBarCloseObserver = NotificationCenter.default.addObserver(
+      forName: NSWindow.willCloseNotification,
+      object: panel,
+      queue: .main
+    ) { [weak self, weak panel] _ in
+      if self?.commandBarWindow === panel {
+        self?.commandBarWindow = nil
+        if let observer = self?.commandBarCloseObserver {
+          NotificationCenter.default.removeObserver(observer)
+          self?.commandBarCloseObserver = nil
+        }
+      }
+    }
+    commandBarWindow = panel
+
+    panel.makeKeyAndOrderFront(nil)
+  }
+
   func layoutPanels(animated: Bool = false) {
     // findPanel is added before replacePanel to ensure the key view loop,
     // but we want findPanel visually above the replacePanel to play UI tricks.
@@ -334,22 +387,6 @@ extension EditorViewController {
 
     NSSpellChecker.shared.declineCorrectionIndicator(for: webView)
     presentedPopover?.close()
-  }
-
-  func showCommandBar() {
-    removeFloatingUIElements()
-
-    let popover = NSPopover()
-    popover.behavior = .transient
-    popover.contentSize = CGSize(width: 520, height: 320)
-    popover.contentViewController = CommandBarController()
-    presentedPopover = popover
-
-    popover.show(
-      relativeTo: CGRect(x: view.bounds.midX - 1, y: view.bounds.maxY - view.safeAreaInsets.top - 8, width: 2, height: 2),
-      of: view,
-      preferredEdge: .maxY
-    )
   }
 
   @discardableResult

@@ -68,7 +68,7 @@ final class CommandBarController: NSViewController {
   override func keyDown(with event: NSEvent) {
     switch event.keyCode {
     case 0x35:
-      dismiss(nil)
+      view.window?.close()
     case 0x24:
       acceptSelection()
     case 0x7D:
@@ -136,7 +136,7 @@ private extension CommandBarController {
     }
 
     let item = items[row]
-    dismiss(nil)
+    view.window?.close()
 
     do {
       switch item.action {

@@ -16,6 +16,16 @@ import MarkEditKit
 final class AppDocumentController: NSDocumentController {
   static var suggestedTextEncoding: EditorTextEncoding?
   static var suggestedFilename: String?
+  static var createsUntitledDocument = false
+
+  override func newDocument(_ sender: Any?) {
+    guard Self.createsUntitledDocument else {
+      AppVault.openNewNote()
+      return
+    }
+
+    super.newDocument(sender)
+  }
 
   override func beginOpenPanel(_ openPanel: NSOpenPanel, forTypes inTypes: [String]?) async -> Int {
     if let defaultDirectory = AppRuntimeConfig.defaultOpenDirectory {

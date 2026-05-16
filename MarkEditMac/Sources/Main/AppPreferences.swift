@@ -60,7 +60,7 @@ enum AppPreferences {
   }
 
   enum Editor {
-    @Storage(key: "editor.light-theme", defaultValue: AppTheme.GitHubLight.editorTheme)
+    @Storage(key: "editor.light-theme", defaultValue: AppTheme.XcodeLight.editorTheme)
     static var lightTheme: String {
       didSet {
         Task { @MainActor in
@@ -69,7 +69,7 @@ enum AppPreferences {
       }
     }
 
-    @Storage(key: "editor.dark-theme", defaultValue: AppTheme.GitHubDark.editorTheme)
+    @Storage(key: "editor.dark-theme", defaultValue: AppTheme.XcodeDark.editorTheme)
     static var darkTheme: String {
       didSet {
         Task { @MainActor in

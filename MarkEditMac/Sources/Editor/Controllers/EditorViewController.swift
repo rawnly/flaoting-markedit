@@ -36,6 +36,8 @@ final class EditorViewController: NSViewController {
 
   weak var presentedMenu: NSMenu?
   weak var presentedPopover: NSPopover?
+  var commandBarWindow: NSWindow?
+  var commandBarCloseObserver: Any?
 
   var editorText: String? {
     get async {

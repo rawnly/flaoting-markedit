@@ -57,7 +57,9 @@ extension AppDelegate {
     // Activating the app also creates a new file if new window behavior is `newDocument`,
     // prevent duplicate creation from Shortcuts like `CreateNewDocumentIntent`.
     if !isIntent || (Date.timeIntervalSinceReferenceDate - States.untitledFileOpenedDate > 0.2) {
+      AppDocumentController.createsUntitledDocument = true
       NSDocumentController.shared.newDocument(nil)
+      AppDocumentController.createsUntitledDocument = false
     }
 
     if isIntent {

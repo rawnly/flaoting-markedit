@@ -79,6 +79,36 @@ enum AppVault {
     return url
   }
 
+  static func createNewNote() throws -> URL {
+    let vaultURL = try ensureVault()
+    let formatter = DateFormatter()
+    formatter.calendar = .current
+    formatter.locale = Locale(identifier: "en_US_POSIX")
+    formatter.dateFormat = "yyyy-MM-dd HH.mm"
+
+    let baseName = formatter.string(from: Date())
+    var noteURL = vaultURL.appending(path: "\(baseName).md", directoryHint: .notDirectory)
+    var counter = 2
+
+    while FileManager.default.fileExists(atPath: noteURL.path) {
+      noteURL = vaultURL.appending(path: "\(baseName) \(counter).md", directoryHint: .notDirectory)
+      counter += 1
+    }
+
+    try createFileIfNeeded(at: noteURL)
+    return noteURL
+  }
+
+  static func openNewNote(display: Bool = true) {
+    Task { @MainActor in
+      do {
+        openDocument(at: try createNewNote(), display: display)
+      } catch {
+        NSApp.presentError(error)
+      }
+    }
+  }
+
   static func markdownFiles() -> [URL] {
     guard let vaultURL else {
       return []
