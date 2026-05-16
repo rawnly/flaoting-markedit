@@ -56,6 +56,10 @@ enum AppVault {
   }
 
   static func openDocument(at url: URL, display: Bool = true) {
+    if display, replaceCurrentDocument(with: url) {
+      return
+    }
+
     NSDocumentController.shared.openDocument(withContentsOf: url, display: display) { _, _, error in
       if let error {
         NSApp.presentError(error)
@@ -221,5 +225,51 @@ private extension AppVault {
     let parent = url.deletingLastPathComponent()
     try FileManager.default.createDirectory(at: parent, withIntermediateDirectories: true)
     try Data().write(to: url, options: .withoutOverwriting)
+  }
+
+  static func replaceCurrentDocument(with url: URL) -> Bool {
+    guard
+      let editor = NSApp.currentEditor,
+      let windowController = editor.view.window?.windowController as? EditorWindowController
+    else {
+      return false
+    }
+
+    if editor.document?.fileURL == url {
+      editor.view.window?.makeKeyAndOrderFront(nil)
+      NSApp.activate(ignoringOtherApps: true)
+      return true
+    }
+
+    let previousDocument = editor.document
+    previousDocument?.saveContent()
+
+    NSDocumentController.shared.openDocument(withContentsOf: url, display: false) { document, _, error in
+      if let error {
+        NSApp.presentError(error)
+        return
+      }
+
+      guard let document = document as? EditorDocument else {
+        return
+      }
+
+      for existingWindowController in document.windowControllers where existingWindowController !== windowController {
+        existingWindowController.window?.close()
+        document.removeWindowController(existingWindowController)
+      }
+
+      previousDocument?.removeWindowController(windowController)
+      document.addWindowController(windowController)
+      document.attach(to: editor)
+      windowController.synchronizeWindowTitleWithDocumentName()
+      windowController.window?.representedURL = url
+      windowController.window?.makeKeyAndOrderFront(nil)
+
+      previousDocument?.close()
+      NSApp.activate(ignoringOtherApps: true)
+    }
+
+    return true
   }
 }

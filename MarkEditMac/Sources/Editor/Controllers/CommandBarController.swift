@@ -9,9 +9,10 @@ import AppKit
 
 @MainActor
 final class CommandBarController: NSViewController {
-  private let searchField = NSSearchField()
+  let searchField = CommandBarSearchField()
   private let tableView = NSTableView()
   private let scrollView = NSScrollView()
+  private let effectView = NSVisualEffectView()
   private var allFiles = [URL]()
   private var items = [CommandItem]()
 
@@ -19,12 +20,19 @@ final class CommandBarController: NSViewController {
     view = NSView(frame: CGRect(x: 0, y: 0, width: 520, height: 320))
     view.wantsLayer = true
     view.layer?.cornerRadius = 8
-    view.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
+    view.layer?.masksToBounds = true
+
+    effectView.material = .hudWindow
+    effectView.blendingMode = .behindWindow
+    effectView.state = .active
+    effectView.translatesAutoresizingMaskIntoConstraints = false
 
     searchField.placeholderString = "Search notes or create a note"
     searchField.focusRingType = .none
-    searchField.target = self
-    searchField.action = #selector(searchChanged(_:))
+    searchField.delegate = self
+    searchField.onKeyDown = { [weak self] event in
+      self?.handleKeyDown(event) == true
+    }
     searchField.translatesAutoresizingMaskIntoConstraints = false
 
     let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier("Command"))
@@ -42,18 +50,23 @@ final class CommandBarController: NSViewController {
     scrollView.drawsBackground = false
     scrollView.translatesAutoresizingMaskIntoConstraints = false
 
-    view.addSubview(searchField)
-    view.addSubview(scrollView)
+    view.addSubview(effectView)
+    effectView.addSubview(searchField)
+    effectView.addSubview(scrollView)
 
     NSLayoutConstraint.activate([
-      searchField.topAnchor.constraint(equalTo: view.topAnchor, constant: 12),
-      searchField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
-      searchField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
+      effectView.topAnchor.constraint(equalTo: view.topAnchor),
+      effectView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      effectView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      effectView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+      searchField.topAnchor.constraint(equalTo: effectView.topAnchor, constant: 14),
+      searchField.leadingAnchor.constraint(equalTo: effectView.leadingAnchor, constant: 14),
+      searchField.trailingAnchor.constraint(equalTo: effectView.trailingAnchor, constant: -14),
       searchField.heightAnchor.constraint(equalToConstant: 32),
       scrollView.topAnchor.constraint(equalTo: searchField.bottomAnchor, constant: 8),
-      scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8),
+      scrollView.leadingAnchor.constraint(equalTo: effectView.leadingAnchor),
+      scrollView.trailingAnchor.constraint(equalTo: effectView.trailingAnchor),
+      scrollView.bottomAnchor.constraint(equalTo: effectView.bottomAnchor, constant: -10),
     ])
   }
 
@@ -62,26 +75,49 @@ final class CommandBarController: NSViewController {
     allFiles = AppVault.markdownFiles()
     searchField.stringValue = ""
     reloadItems()
-    view.window?.makeFirstResponder(searchField)
+  }
+
+  override func viewDidAppear() {
+    super.viewDidAppear()
+    focusSearchField()
   }
 
   override func keyDown(with event: NSEvent) {
-    switch event.keyCode {
-    case 0x35:
-      view.window?.close()
-    case 0x24:
-      acceptSelection()
-    case 0x7D:
-      moveSelection(by: 1)
-    case 0x7E:
-      moveSelection(by: -1)
-    default:
+    if !handleKeyDown(event) {
       super.keyDown(with: event)
     }
   }
+
+  func focusSearchField() {
+    view.window?.makeFirstResponder(searchField)
+    searchField.currentEditor()?.selectAll(nil)
+  }
 }
 
-extension CommandBarController: NSTableViewDataSource, NSTableViewDelegate {
+extension CommandBarController: NSSearchFieldDelegate, NSTableViewDataSource, NSTableViewDelegate {
+  func control(_ control: NSControl, textView: NSTextView, doCommandBy commandSelector: Selector) -> Bool {
+    switch commandSelector {
+    case #selector(NSResponder.moveDown(_:)):
+      moveSelection(by: 1)
+      return true
+    case #selector(NSResponder.moveUp(_:)):
+      moveSelection(by: -1)
+      return true
+    case #selector(NSResponder.insertNewline(_:)), #selector(NSResponder.insertTab(_:)):
+      acceptSelection()
+      return true
+    case #selector(NSResponder.cancelOperation(_:)):
+      view.window?.close()
+      return true
+    default:
+      return false
+    }
+  }
+
+  func controlTextDidChange(_ notification: Notification) {
+    reloadItems()
+  }
+
   func numberOfRows(in tableView: NSTableView) -> Int {
     items.count
   }
@@ -125,8 +161,23 @@ private extension CommandBarController {
     let action: Action
   }
 
-  @objc func searchChanged(_ sender: NSSearchField) {
-    reloadItems()
+  func handleKeyDown(_ event: NSEvent) -> Bool {
+    switch event.keyCode {
+    case 0x35:
+      view.window?.close()
+      return true
+    case 0x24, 0x30:
+      acceptSelection()
+      return true
+    case 0x7D:
+      moveSelection(by: 1)
+      return true
+    case 0x7E:
+      moveSelection(by: -1)
+      return true
+    default:
+      return false
+    }
   }
 
   @objc func acceptSelection() {
@@ -158,13 +209,18 @@ private extension CommandBarController {
       .prefix(20)
       .map { CommandItem(title: AppVault.displayPath(for: $0), action: .open($0)) }
 
-    var nextItems = [CommandItem(title: "Open Today's Note", action: .today)]
+    var nextItems = [CommandItem]()
+
+    if query.isEmpty {
+      nextItems.append(CommandItem(title: "Open Today's Note", action: .today))
+    }
+
+    nextItems.append(contentsOf: matches)
 
     if !query.isEmpty {
       nextItems.append(CommandItem(title: "Create \"\(query).md\"", action: .create(query)))
     }
 
-    nextItems.append(contentsOf: matches)
     items = nextItems
     tableView.reloadData()
     tableView.selectRowIndexes(IndexSet(integer: 0), byExtendingSelection: false)
@@ -198,5 +254,27 @@ private extension CommandBarController {
     }
 
     return false
+  }
+}
+
+final class CommandBarPanel: NSPanel {
+  override var canBecomeKey: Bool {
+    true
+  }
+
+  override var canBecomeMain: Bool {
+    false
+  }
+}
+
+final class CommandBarSearchField: NSSearchField {
+  var onKeyDown: ((NSEvent) -> Bool)?
+
+  override func keyDown(with event: NSEvent) {
+    if onKeyDown?(event) == true {
+      return
+    }
+
+    super.keyDown(with: event)
   }
 }

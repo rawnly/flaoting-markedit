@@ -12,6 +12,81 @@ import MarkEditKit
 import Statistics
 import TextCompletion
 
+private enum EditorBundledScripts {
+  static let vimStatusChrome = #"""
+    (() => {
+      const style = document.createElement("style");
+      style.textContent = `
+        .cm-editor { position: relative; }
+        .cm-panels-bottom {
+          position: absolute !important;
+          left: auto !important;
+          right: 92px !important;
+          bottom: 12px !important;
+          z-index: 20;
+          border: 0 !important;
+          background: transparent !important;
+          pointer-events: none;
+        }
+        .cm-panels-bottom:has(input) {
+          left: 12px !important;
+          right: 12px !important;
+        }
+        .cm-vim-panel {
+          min-height: 0 !important;
+          display: inline-flex !important;
+          align-items: center;
+          padding: 3px 8px !important;
+          border: 1px solid rgba(255, 255, 255, .12);
+          border-radius: 6px;
+          background: rgba(32, 32, 36, .76);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, .22);
+          backdrop-filter: blur(18px);
+          color: rgba(255, 255, 255, .86);
+          pointer-events: auto;
+        }
+        .cm-vim-panel span {
+          font: 11px ui-monospace, SFMono-Regular, Menlo, monospace !important;
+          line-height: 14px !important;
+        }
+        .cm-vim-panel input { color: inherit !important; }
+        .cm-vim-panel span[style*="flex"] { display: none !important; }
+      `;
+      document.head.appendChild(style);
+
+      const modes = {
+        NORMAL: "N",
+        INSERT: "I",
+        VISUAL: "V",
+        "VISUAL BLOCK": "B",
+        REPLACE: "R",
+      };
+
+      function compactMode(panel) {
+        panel.querySelectorAll(".cm-vim-panel span").forEach((span) => {
+          const match = span.textContent?.match(/^--(.+)--$/);
+          if (!match) return;
+
+          const mode = match[1].replace(/\(C-O\)$/, "").replace(/\s+/g, " ").trim();
+          span.textContent = modes[mode] || mode.charAt(0) || "";
+        });
+      }
+
+      MarkEdit.onEditorReady(({ dom }) => {
+        const panel = dom.querySelector(".cm-panels-bottom");
+        if (!panel) return;
+
+        compactMode(panel);
+        new MutationObserver(() => compactMode(panel)).observe(panel, {
+          childList: true,
+          subtree: true,
+          characterData: true,
+        });
+      });
+    })();
+  """#
+}
+
 final class EditorViewController: NSViewController {
   var hasFinishedLoading = false {
     didSet {
@@ -29,6 +104,7 @@ final class EditorViewController: NSViewController {
   // Use windowBackgroundColor for base background color — ensures classic Mac appearance with subtle vibrancy but no extreme transparency
   var webBackgroundColor = NSColor.windowBackgroundColor
   var localEventMonitor: Any?
+  var noteAutosaveTimer: Timer?
   var textBoxInputObserver: Any?
   var writingToolsObservation: NSKeyValueObservation?
   var safeAreaObservation: NSKeyValueObservation?
@@ -38,6 +114,7 @@ final class EditorViewController: NSViewController {
   weak var presentedPopover: NSPopover?
   var commandBarWindow: NSWindow?
   var commandBarCloseObserver: Any?
+  var commandBarEventMonitor: Any?
 
   var editorText: String? {
     get async {
@@ -128,9 +205,7 @@ final class EditorViewController: NSViewController {
     return panel
   }()
 
-  private(set) lazy var panelDivider = {
-    DividerView()
-  }()
+  private(set) lazy var panelDivider = DividerView()
 
   private(set) lazy var statusView = {
     let view = EditorStatusView { [weak self] in
@@ -141,9 +216,7 @@ final class EditorViewController: NSViewController {
     return view
   }()
 
-  private(set) lazy var focusTrackingView = {
-    FocusTrackingView()
-  }()
+  private(set) lazy var focusTrackingView = FocusTrackingView()
 
   private(set) lazy var webView: WKWebView = {
     let modules = NativeModules(modules: [
@@ -160,7 +233,10 @@ final class EditorViewController: NSViewController {
     let controller = WKUserContentController()
     controller.addScriptMessageHandler(handler, contentWorld: .page, name: "bridge")
 
-    let bundledScripts = AppPreferences.Editor.vimMotions ? [Bundle.main.fileContents(named: "markedit-vim", extension: "js")] : []
+    let bundledScripts = AppPreferences.Editor.vimMotions ? [
+      Bundle.main.fileContents(named: "markedit-vim", extension: "js"),
+      EditorBundledScripts.vimStatusChrome,
+    ] : []
     let scripts = bundledScripts + [
       AppCustomization.editorScript.fileContents,
     ] + AppCustomization.scriptsDirectory.directoryContents
@@ -248,10 +324,9 @@ final class EditorViewController: NSViewController {
   private var loadingContinuations = [CheckedContinuation<Void, Never>]()
 
   deinit {
-    if let monitor = localEventMonitor {
-      NSEvent.removeMonitor(monitor)
-      localEventMonitor = nil
-    }
+    if let monitor = localEventMonitor { NSEvent.removeMonitor(monitor) }
+    if let monitor = commandBarEventMonitor { NSEvent.removeMonitor(monitor) }
+    noteAutosaveTimer?.invalidate()
   }
 
   init(preloadDelay: TimeInterval? = nil) {

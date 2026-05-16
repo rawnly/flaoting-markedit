@@ -9,6 +9,12 @@ import AppKit
 import MarkEditKit
 
 final class EditorWindow: NSWindow {
+  override var title: String {
+    didSet {
+      updateCenteredTitle()
+    }
+  }
+
   var toolbarMode: ToolbarMode? {
     didSet {
       toolbarStyle = toolbarMode == .compact ? .unifiedCompact : .unified
@@ -42,6 +48,7 @@ final class EditorWindow: NSWindow {
   private var cachedToolbar: NSToolbar?
   private weak var cachedToolbarEffectView: NSView?
   private weak var cachedTitlebarDecorationView: NSView?
+  private weak var centeredTitleField: NSTextField?
 
   override func awakeFromNib() {
     super.awakeFromNib()
@@ -60,6 +67,8 @@ final class EditorWindow: NSWindow {
   /// `(isFullscreen, toolbarMode, reduceTransparency, prefersTintedToolbar)`.
   /// Safe to call repeatedly; also runs implicitly after each layout pass.
   func updateTitleBarAppearance(clearCaches: Bool = true) {
+    installCenteredTitleIfNeeded()
+
     if clearCaches {
       cachedToolbarEffectView = nil
       cachedTitlebarDecorationView = nil
@@ -102,5 +111,38 @@ final class EditorWindow: NSWindow {
         }
       }
     }
+  }
+
+  private func installCenteredTitleIfNeeded() {
+    guard centeredTitleField == nil,
+          let closeButton = standardWindowButton(.closeButton),
+          let titlebarView = closeButton.superview else {
+      return
+    }
+
+    titleVisibility = .hidden
+
+    let titleField = NSTextField(labelWithString: "")
+    titleField.font = .systemFont(ofSize: 13, weight: .semibold)
+    titleField.textColor = .labelColor
+    titleField.alignment = .center
+    titleField.lineBreakMode = .byTruncatingMiddle
+    titleField.translatesAutoresizingMaskIntoConstraints = false
+    titlebarView.addSubview(titleField)
+
+    let leadingAnchor = standardWindowButton(.zoomButton)?.trailingAnchor ?? closeButton.trailingAnchor
+    NSLayoutConstraint.activate([
+      titleField.centerXAnchor.constraint(equalTo: titlebarView.centerXAnchor),
+      titleField.centerYAnchor.constraint(equalTo: closeButton.centerYAnchor),
+      titleField.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 18),
+      titleField.trailingAnchor.constraint(lessThanOrEqualTo: titlebarView.trailingAnchor, constant: -18),
+    ])
+
+    centeredTitleField = titleField
+    updateCenteredTitle()
+  }
+
+  private func updateCenteredTitle() {
+    centeredTitleField?.stringValue = title
   }
 }

@@ -93,27 +93,20 @@ extension AppDelegate {
       window.orderOut(nil)
     }
 
-    let windows = NSApp.windows.filter {
-      $0 is EditorWindow
-    }
+    let windows = NSApp.windows.compactMap { $0 as? EditorWindow }
 
     if windows.isEmpty {
       // Open a new window if we don't have any editor windows
       AppVault.openToday()
-    } else if (windows.contains { $0.isKeyWindow }) {
-      // Hide the app if there was already a key editor window
-      NSApp.hide(nil)
+      return
+    } else if windows.contains(where: { $0.isVisible && $0.isKeyWindow }) {
+      // Hide only the editor window so the next toggle restores the same frame.
+      windows.forEach { $0.orderOut(nil) }
+      return
     } else {
-      // Ensure one editor window is key and ordered front, if exists, called after NSApp.activate
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.02) {
-        let windows = NSApp.windows.filter { $0 is EditorWindow }
-        if windows.allSatisfy({ !$0.isKeyWindow }) {
-          windows.first?.makeKeyAndOrderFront(nil)
-        }
-      }
+      windows.first?.makeKeyAndOrderFront(nil)
+      NSApp.activate(ignoringOtherApps: true)
     }
-
-    NSApp.activate(ignoringOtherApps: true)
   }
 }
 

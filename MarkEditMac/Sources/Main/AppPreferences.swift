@@ -49,6 +49,48 @@ enum AppPreferences {
     @Storage(key: "general.vault-bookmark", defaultValue: nil)
     static var vaultBookmark: Data?
 
+    @Storage(key: "general.main-window-hotkey-enabled", defaultValue: true)
+    static var mainWindowHotKeyEnabled: Bool {
+      didSet {
+        Task { @MainActor in NSApp.appDelegate?.configureMainWindowHotKey() }
+      }
+    }
+
+    @Storage(key: "general.main-window-hotkey-key", defaultValue: "M")
+    static var mainWindowHotKeyKey: String {
+      didSet {
+        Task { @MainActor in NSApp.appDelegate?.configureMainWindowHotKey() }
+      }
+    }
+
+    @Storage(key: "general.main-window-hotkey-shift", defaultValue: true)
+    static var mainWindowHotKeyShift: Bool {
+      didSet {
+        Task { @MainActor in NSApp.appDelegate?.configureMainWindowHotKey() }
+      }
+    }
+
+    @Storage(key: "general.main-window-hotkey-control", defaultValue: false)
+    static var mainWindowHotKeyControl: Bool {
+      didSet {
+        Task { @MainActor in NSApp.appDelegate?.configureMainWindowHotKey() }
+      }
+    }
+
+    @Storage(key: "general.main-window-hotkey-option", defaultValue: true)
+    static var mainWindowHotKeyOption: Bool {
+      didSet {
+        Task { @MainActor in NSApp.appDelegate?.configureMainWindowHotKey() }
+      }
+    }
+
+    @Storage(key: "general.main-window-hotkey-command", defaultValue: true)
+    static var mainWindowHotKeyCommand: Bool {
+      didSet {
+        Task { @MainActor in NSApp.appDelegate?.configureMainWindowHotKey() }
+      }
+    }
+
     static var quitAlwaysKeepsWindows: Bool {
       get {
         UserDefaults.standard.bool(forKey: NSQuitAlwaysKeepsWindows)

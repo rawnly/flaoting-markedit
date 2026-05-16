@@ -54,6 +54,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
   private var appearanceObservation: NSKeyValueObservation?
   private var settingsWindowController: NSWindowController?
+  private var mainWindowHotKeyToken: AppHotKeys.Token?
 
   func applicationWillFinishLaunching(_ notification: Notification) {
     EditorPreloader.shared.warmUp()
@@ -81,12 +82,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
       UserDefaults.standard.removeObject(forKey: NSCloseAlwaysConfirmsChanges)
     }
 
-    // Register global hot key to activate the document window, if provided
-    if let hotKey = AppRuntimeConfig.mainWindowHotKey {
-      AppHotKeys.register(keyEquivalent: hotKey.key, modifiers: hotKey.modifiers) {
-        self.toggleDocumentWindowVisibility()
-      }
-    }
+    configureMainWindowHotKey()
 
     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
       self.presentUpdateItem?.title = Localized.Updater.viewReleasePage
@@ -151,6 +147,28 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     return true
+  }
+
+  func configureMainWindowHotKey() {
+    AppHotKeys.unregister(mainWindowHotKeyToken)
+    mainWindowHotKeyToken = nil
+
+    guard AppPreferences.General.mainWindowHotKeyEnabled else {
+      return
+    }
+
+    var modifiers: AppHotKeys.Modifiers = []
+    if AppPreferences.General.mainWindowHotKeyShift { modifiers.insert(.shift) }
+    if AppPreferences.General.mainWindowHotKeyControl { modifiers.insert(.control) }
+    if AppPreferences.General.mainWindowHotKeyOption { modifiers.insert(.option) }
+    if AppPreferences.General.mainWindowHotKeyCommand { modifiers.insert(.command) }
+
+    mainWindowHotKeyToken = AppHotKeys.register(
+      keyEquivalent: AppPreferences.General.mainWindowHotKeyKey,
+      modifiers: modifiers
+    ) { [weak self] in
+      self?.toggleDocumentWindowVisibility()
+    }
   }
 }
 

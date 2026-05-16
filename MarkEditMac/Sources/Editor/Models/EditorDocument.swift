@@ -109,8 +109,7 @@ final class EditorDocument: NSDocument {
     }
 
     isTerminating = false
-    hostViewController = contentVC
-    hostViewController?.representedObject = self
+    attach(to: contentVC)
 
     externalFilename = AppDocumentController.suggestedFilename
     AppDocumentController.suggestedFilename = nil
@@ -172,6 +171,17 @@ final class EditorDocument: NSDocument {
     }
   }
 
+  func saveNoteContentIfNeeded() {
+    guard fileURL != nil, isOutdated || isDocumentEdited else {
+      return
+    }
+
+    saveContent {
+      self.markContentClean()
+      self.updateChangeCount(.changeCleared)
+    }
+  }
+
   func updateContent(userInitiated: Bool = false, saveAction: @escaping (() -> Void) = {}) {
     Task { @MainActor in
       await updateContent(userInitiated: userInitiated)
@@ -185,6 +195,11 @@ final class EditorDocument: NSDocument {
     }
 
     spellDocTag = NSSpellChecker.uniqueSpellDocumentTag()
+  }
+
+  func attach(to viewController: EditorViewController) {
+    hostViewController = viewController
+    hostViewController?.representedObject = self
   }
 }
 
@@ -233,7 +248,7 @@ extension EditorDocument {
 
   override func updateChangeCount(_ change: NSDocument.ChangeType) {
     // The "Edited" label is hidden when changes are saved periodically
-    super.updateChangeCount(shouldSaveWhenIdle ? .changeCleared : change)
+    super.updateChangeCount(fileURL != nil || shouldSaveWhenIdle ? .changeCleared : change)
   }
 
   override func canAsynchronouslyWrite(to url: URL, ofType typeName: String, for saveOperation: NSDocument.SaveOperationType) -> Bool {

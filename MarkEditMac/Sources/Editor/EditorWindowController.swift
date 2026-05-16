@@ -19,24 +19,14 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
   override func windowDidLoad() {
     super.windowDidLoad()
 
-    // Disable window tabbing and restore a classic macOS window style (like Xcode or Raycast),
-    // not glassy/translucent.
     if let window {
       window.tabbingMode = .disallowed
       var newStyleMask = window.styleMask
-      newStyleMask.remove(.fullSizeContentView) // remove fullSizeContentView if present to apply visual effect clearly
+      newStyleMask.remove(.fullSizeContentView)
       window.styleMask = newStyleMask
-
-      // Set window background color to .windowBackgroundColor or .controlBackgroundColor as fallback
+      window.isOpaque = true
       window.backgroundColor = NSColor.windowBackgroundColor
-
-      // Insert a NSVisualEffectView as the background with classic macOS window style
-      let visualEffectView = NSVisualEffectView(frame: window.contentView?.bounds ?? .zero)
-      visualEffectView.autoresizingMask = [.width, .height]
-      visualEffectView.blendingMode = .behindWindow
-      visualEffectView.state = .active
-//      visualEffectView.material = .window
-      window.contentView?.addSubview(visualEffectView, positioned: .below, relativeTo: nil)
+      window.titleVisibility = .hidden
     }
 
     windowFrameAutosaveName = "NotesEditor"
@@ -62,6 +52,9 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
       // In theory, this is not indeed, but we've seen wrong state without this
       editorViewController?.bridge.core.handleMouseExited(clientX: 0, clientY: 0)
     }
+
+    window?.saveFrame(usingName: windowFrameAutosaveName)
+    editorViewController?.saveFileBackedNoteIfNeeded()
   }
 
   func windowDidBecomeKey(_ notification: Notification) {
@@ -84,6 +77,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
     needsUpdateFocus = editorViewController?.webView.isFirstResponder == true
     editorViewController?.cancelCompletion()
     editorViewController?.bridge.core.handleFocusLost()
+    editorViewController?.saveFileBackedNoteIfNeeded()
   }
 
   func windowShouldZoom(_ window: NSWindow, toFrame newFrame: NSRect) -> Bool {
@@ -107,9 +101,14 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
     editorViewController?.cancelCompletion()
   }
 
+  func windowDidMove(_ notification: Notification) {
+    window?.saveFrame(usingName: windowFrameAutosaveName)
+  }
+
   // Capture tab state here, not in windowWillClose. By that point the window
   // is already removed from the tab group so tabbedWindows is nil.
   func windowShouldClose(_ sender: NSWindow) -> Bool {
+    sender.saveFrame(usingName: windowFrameAutosaveName)
     captureTabIndex(for: sender)
     return true
   }

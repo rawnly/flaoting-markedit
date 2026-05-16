@@ -114,6 +114,7 @@ extension EditorViewController {
     )
 
     addLocalMonitorForEvents()
+    startNoteAutosaveTimer()
   }
 
   func configureToolbar() {
@@ -145,22 +146,22 @@ extension EditorViewController {
       let isMainWindow = view.window?.isMainWindow ?? false
       let isFullscreen = view.window?.styleMask.contains(.fullScreen) ?? false
       let reduceTransparency = !isMainWindow || AppDesign.reduceTransparency || isFullscreen
-      let baseColor = backgroundColor.withAlphaComponent(reduceTransparency ? 1.0 : 0.01)
+      let titlebarColor = backgroundColor.withAlphaComponent(reduceTransparency ? 1.0 : 0.82)
 
-      view.window?.backgroundColor = baseColor
-      view.window?.toolbarContainerView?.layerBackgroundColor = baseColor
+      view.window?.backgroundColor = backgroundColor
+      view.window?.toolbarContainerView?.layerBackgroundColor = titlebarColor
 
       modernBackgroundView.layerBackgroundColor = backgroundColor
       modernEffectView.isHidden = reduceTransparency
-      modernTintedView.layerBackgroundColor = baseColor
+      modernTintedView.layerBackgroundColor = titlebarColor
 
       let alphaValue = {
         if modernEffectView is NSVisualEffectView {
-          return prefersTintedToolbar ? 0.7 : 0.3
+          return prefersTintedToolbar ? 0.86 : 0.72
         }
 
         // Glass view needs less transparent color to be tinted
-        return prefersTintedToolbar ? 0.8 : 0.5
+        return prefersTintedToolbar ? 0.9 : 0.78
       }()
 
       let tintColor = backgroundColor.withAlphaComponent(alphaValue).resolvedColor()
@@ -210,13 +211,14 @@ extension EditorViewController {
   func showCommandBar() {
     if let commandBarWindow {
       commandBarWindow.makeKeyAndOrderFront(nil)
+      (commandBarWindow.contentViewController as? CommandBarController)?.focusSearchField()
       return
     }
 
     let commandBarController = CommandBarController()
-    let panel = NSPanel(
+    let panel = CommandBarPanel(
       contentRect: CGRect(x: 0, y: 0, width: 520, height: 320),
-      styleMask: [.titled, .fullSizeContentView],
+      styleMask: [.borderless],
       backing: .buffered,
       defer: false
     )
@@ -226,11 +228,11 @@ extension EditorViewController {
     panel.collectionBehavior = [.transient, .moveToActiveSpace, .fullScreenAuxiliary]
     panel.hidesOnDeactivate = true
     panel.isReleasedWhenClosed = false
-    panel.titleVisibility = .hidden
-    panel.titlebarAppearsTransparent = true
-    panel.standardWindowButton(.closeButton)?.isHidden = true
-    panel.standardWindowButton(.miniaturizeButton)?.isHidden = true
-    panel.standardWindowButton(.zoomButton)?.isHidden = true
+    panel.isOpaque = false
+    panel.backgroundColor = .clear
+    panel.hasShadow = true
+    panel.becomesKeyOnlyIfNeeded = false
+    panel.initialFirstResponder = commandBarController.searchField
 
     if let window = view.window {
       panel.setFrameOrigin(CGPoint(
@@ -249,6 +251,10 @@ extension EditorViewController {
     ) { [weak self, weak panel] _ in
       if self?.commandBarWindow === panel {
         self?.commandBarWindow = nil
+        if let monitor = self?.commandBarEventMonitor {
+          NSEvent.removeMonitor(monitor)
+          self?.commandBarEventMonitor = nil
+        }
         if let observer = self?.commandBarCloseObserver {
           NotificationCenter.default.removeObserver(observer)
           self?.commandBarCloseObserver = nil
@@ -256,8 +262,43 @@ extension EditorViewController {
       }
     }
     commandBarWindow = panel
+    commandBarEventMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self, weak panel, weak commandBarController] event in
+      guard let self,
+            let panel,
+            let commandBarController,
+            self.commandBarWindow === panel,
+            panel.isVisible else {
+        return event
+      }
+
+      guard event.window !== panel else {
+        return event
+      }
+
+      panel.makeKey()
+      commandBarController.focusSearchField()
+      panel.sendEvent(event)
+      return nil
+    }
 
     panel.makeKeyAndOrderFront(nil)
+    DispatchQueue.main.async {
+      panel.makeKey()
+      commandBarController.focusSearchField()
+    }
+  }
+
+  func startNoteAutosaveTimer() {
+    noteAutosaveTimer?.invalidate()
+    noteAutosaveTimer = Timer.scheduledTimer(withTimeInterval: 15, repeats: true) { [weak self] _ in
+      Task { @MainActor in
+        self?.saveFileBackedNoteIfNeeded()
+      }
+    }
+  }
+
+  func saveFileBackedNoteIfNeeded() {
+    document?.saveNoteContentIfNeeded()
   }
 
   func layoutPanels(animated: Bool = false) {
@@ -663,6 +704,8 @@ private extension EditorViewController {
     if AppDesign.modernStyle {
       updateWindowColors(.current)
     }
+
+    saveFileBackedNoteIfNeeded()
   }
 
   @objc func popoverDidShow(_ notification: Notification) {

@@ -11,6 +11,10 @@ import MarkEditKit
 
 @MainActor
 enum AppHotKeys {
+  struct Token {
+    fileprivate let id: UInt32
+  }
+
   struct Modifiers: OptionSet {
     let rawValue: Int
     static let shift = Self(rawValue: shiftKey)
@@ -50,15 +54,28 @@ enum AppHotKeys {
       return Logger.log(.error, "Failed to find keyCode for: \(keyEquivalent)")
     }
 
-    register(keyCode: keyCode, modifiers: .init(stringValues: modifiers), handler: handler)
+    _ = register(keyCode: keyCode, modifiers: .init(stringValues: modifiers), handler: handler)
   }
 
-  static func register(keyCode: UInt32, modifiers: Modifiers, handler: @escaping () -> Void) {
+  @discardableResult
+  static func register(keyEquivalent: String, modifiers: Modifiers, handler: @escaping () -> Void) -> Token? {
+    let normalizedKey = keyEquivalent.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+    guard let keyCode = virtualKeyCodes[normalizedKey] else {
+      Logger.log(.error, "Failed to find keyCode for: \(keyEquivalent)")
+      return nil
+    }
+
+    return register(keyCode: keyCode, modifiers: modifiers, handler: handler)
+  }
+
+  @discardableResult
+  static func register(keyCode: UInt32, modifiers: Modifiers, handler: @escaping () -> Void) -> Token? {
     var eventHotKey: EventHotKeyRef?
+    let id = hotKeyID
     let registerError = RegisterEventHotKey(
       keyCode,
       UInt32(modifiers.rawValue),
-      EventHotKeyID(signature: hotKeySignature, id: hotKeyID),
+      EventHotKeyID(signature: hotKeySignature, id: id),
       GetEventDispatcherTarget(),
       0,
       &eventHotKey
@@ -66,11 +83,29 @@ enum AppHotKeys {
 
     if registerError != noErr {
       Logger.log(.error, "Failed to register hotKey: \(keyCode), \(modifiers)")
+      return nil
     }
 
     installEventHandler()
-    mappedHandlers[hotKeyID] = handler
+    mappedHandlers[id] = handler
+    if let eventHotKey {
+      mappedHotKeys[id] = eventHotKey
+    }
     hotKeyID += 1
+    return Token(id: id)
+  }
+
+  static func unregister(_ token: Token?) {
+    guard let id = token?.id else {
+      return
+    }
+
+    if let eventHotKey = mappedHotKeys[id] {
+      UnregisterEventHotKey(eventHotKey)
+    }
+
+    mappedHotKeys[id] = nil
+    mappedHandlers[id] = nil
   }
 }
 
@@ -107,6 +142,7 @@ private extension AppHotKeys {
 @MainActor private var eventHandler: EventHandlerRef?
 @MainActor private var hotKeyID = UInt32(0)
 @MainActor private var mappedHandlers = [UInt32: () -> Void]()
+@MainActor private var mappedHotKeys = [UInt32: EventHotKeyRef]()
 
 @MainActor
 private func handleEvent(_ event: EventRef?) -> OSStatus {

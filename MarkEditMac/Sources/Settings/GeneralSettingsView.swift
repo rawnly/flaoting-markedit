@@ -17,6 +17,12 @@ struct GeneralSettingsView: View {
   @State private var newFilenameExtension = AppPreferences.General.newFilenameExtension
   @State private var defaultTextEncoding = AppPreferences.General.defaultTextEncoding
   @State private var defaultLineEndings = AppPreferences.General.defaultLineEndings
+  @State private var hotKeyEnabled = AppPreferences.General.mainWindowHotKeyEnabled
+  @State private var hotKeyKey = AppPreferences.General.mainWindowHotKeyKey
+  @State private var hotKeyShift = AppPreferences.General.mainWindowHotKeyShift
+  @State private var hotKeyControl = AppPreferences.General.mainWindowHotKeyControl
+  @State private var hotKeyOption = AppPreferences.General.mainWindowHotKeyOption
+  @State private var hotKeyCommand = AppPreferences.General.mainWindowHotKeyCommand
 
   var body: some View {
     SettingsForm {
@@ -48,6 +54,45 @@ struct GeneralSettingsView: View {
           }
           .formLabel(Localized.Settings.windowRestoration)
           .formBreathingInset()
+      }
+
+      Section {
+        Toggle("Enable global shortcut", isOn: $hotKeyEnabled)
+          .onChange(of: hotKeyEnabled) {
+            AppPreferences.General.mainWindowHotKeyEnabled = hotKeyEnabled
+          }
+          .formLabel("Notes window")
+          .formBreathingInset()
+
+        TextField("Key", text: $hotKeyKey)
+          .frame(width: 72)
+          .onChange(of: hotKeyKey) {
+            let normalized = hotKeyKey.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+            hotKeyKey = String(normalized.prefix(1))
+            AppPreferences.General.mainWindowHotKeyKey = hotKeyKey
+          }
+          .formLabel("Shortcut key")
+
+        HStack {
+          Toggle("Shift", isOn: $hotKeyShift)
+            .onChange(of: hotKeyShift) {
+              AppPreferences.General.mainWindowHotKeyShift = hotKeyShift
+            }
+          Toggle("Control", isOn: $hotKeyControl)
+            .onChange(of: hotKeyControl) {
+              AppPreferences.General.mainWindowHotKeyControl = hotKeyControl
+            }
+          Toggle("Option", isOn: $hotKeyOption)
+            .onChange(of: hotKeyOption) {
+              AppPreferences.General.mainWindowHotKeyOption = hotKeyOption
+            }
+          Toggle("Command", isOn: $hotKeyCommand)
+            .onChange(of: hotKeyCommand) {
+              AppPreferences.General.mainWindowHotKeyCommand = hotKeyCommand
+            }
+        }
+        .formLabel("Modifiers")
+        .formBreathingInset()
       }
 
       Section {
